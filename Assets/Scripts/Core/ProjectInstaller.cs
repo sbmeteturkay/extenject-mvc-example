@@ -1,3 +1,5 @@
+using SabanMete.Core.Utils;
+using UnityEngine;
 using Zenject;
 
 namespace SabanMete.Core.GameStates
@@ -7,6 +9,8 @@ namespace SabanMete.Core.GameStates
         public override void InstallBindings()
         {
             Container.Bind<IGameStateManager>().To<GameStateManager>().AsSingle();
+            // SceneLoader'ı singleton olarak bind et
         }
     }
+
 }

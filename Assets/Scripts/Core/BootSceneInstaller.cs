@@ -1,4 +1,5 @@
 using SabanMete.Core.GameStates;
+using SabanMete.Core.Utils;
 using Zenject;
 
 namespace SabanMete.Core.Installers
@@ -9,7 +10,7 @@ namespace SabanMete.Core.Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<IGameStateManager>().FromInstance(gameStateManager).AsSingle();
+            Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
         }
     }
 }
