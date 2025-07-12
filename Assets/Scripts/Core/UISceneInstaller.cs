@@ -1,3 +1,4 @@
+using SabanMete.Core.Utils;
 using UnityEngine;
 using Zenject;
 
@@ -5,11 +6,16 @@ namespace SabanMete.Core.UI
 {
     public class UISceneInstaller : MonoInstaller
     {
-        [SerializeField] private LoadingScreenService loadingScreen;
-
+        [Inject] private SignalBus signalBus;
         public override void InstallBindings()
         {
-            Container.Bind<ILoadingScreenService>().To<LoadingScreenService>().FromInstance(loadingScreen).AsSingle();
+            Debug.Log("ui scene installer");
+        }
+
+        public override void Start()
+        {
+            base.Start();
+            signalBus.Fire(new ShowLoadingScreenSignal());
         }
     }
 }

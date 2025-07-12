@@ -2,23 +2,26 @@ using Cysharp.Threading.Tasks;
 using SabanMete.Core.UI;
 using SabanMete.Core.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace SabanMete.Core.GameStates
 {
-    public class GameStateManager : IGameStateManager
+    public class GameStateManager : IGameStateManager, IInitializable
     {
         private readonly ISceneLoader sceneLoader;
         public GameState Current { get; private set; }
 
-        private readonly LazyInject<ILoadingScreenService> loadingScreenService;
 
-        public GameStateManager(ISceneLoader sceneLoader, LazyInject<ILoadingScreenService> loadingScreenService)
+        public GameStateManager(ISceneLoader sceneLoader)
         {
             this.sceneLoader = sceneLoader;
-            this.loadingScreenService = loadingScreenService;
         }
-
+        public void Initialize()
+        {
+            sceneLoader.LoadScenesAsync(new[] { "MainScene", "UIScene" },LoadSceneMode.Additive,false);
+            Current = GameState.MainMenu;
+        }
         public void SetState(GameState newState)
         {
             if (Current == newState)
@@ -42,10 +45,8 @@ namespace SabanMete.Core.GameStates
                     break;
 
                 case GameState.Gameplay:
-                    await loadingScreenService.Value.ShowAsync("Loading Game...");
                     await sceneLoader.UnloadSceneAsync("MainScene");
                     await sceneLoader.LoadScenesAsync(new[] { "GameScene" });
-                    await loadingScreenService.Value.HideAsync();
                     break;
 
                 case GameState.GameOver:
@@ -54,5 +55,7 @@ namespace SabanMete.Core.GameStates
                     break;
             }
         }
+
+
     }
 }

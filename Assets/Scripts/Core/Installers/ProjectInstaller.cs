@@ -8,9 +8,13 @@ namespace SabanMete.Core.GameStates
     {
         public override void InstallBindings()
         {
-            Container.Bind<IGameStateManager>().To<GameStateManager>().AsSingle();
-            // SceneLoader'ı singleton olarak bind et
+            Debug.Log("project installer");
+            SignalBusInstaller.Install(Container);
+            Container.DeclareSignal<GameSceneReadySignal>();
+            Container.DeclareSignal<ShowLoadingScreenSignal>();
+            Container.DeclareSignal<HideLoadingScreenSignal>();
         }
     }
+
 
 }

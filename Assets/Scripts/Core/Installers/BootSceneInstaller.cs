@@ -1,5 +1,7 @@
 using SabanMete.Core.GameStates;
+using SabanMete.Core.UI;
 using SabanMete.Core.Utils;
+using UnityEngine;
 using Zenject;
 
 namespace SabanMete.Core.Installers
@@ -8,9 +10,13 @@ namespace SabanMete.Core.Installers
     {
         public override void InstallBindings()
         {
+            Debug.Log("BootSceneInstaller.InstallBindings");
+            //signals
+            //bindings
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
-            Container.Bind<IGameStateManager>().To<GameStateManager>().AsSingle();
-            Container.BindInterfacesTo<BootManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameStateManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BootManager>().AsSingle();
         }
     }
+
 }
