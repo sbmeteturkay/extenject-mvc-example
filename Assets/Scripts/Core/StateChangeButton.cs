@@ -15,7 +15,7 @@ namespace SabanMete.Core.GameStates
         {
             GetComponent<Button>().onClick.AddListener(() =>
             {
-                gameStateManager.ChangeState(targetState);
+                gameStateManager.SetState(targetState);
                 Debug.Log(targetState.ToString());
             });
         }
