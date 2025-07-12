@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using SabanMete.Core.Utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace SabanMete.Core.UI
@@ -12,10 +13,20 @@ namespace SabanMete.Core.UI
         UniTask ShowAsync(string message = "");
         UniTask HideAsync();
     }
+    public struct LoadingProgressSignal
+    {
+        public float Progress;
+
+        public LoadingProgressSignal(float progress)
+        {
+            Progress = progress;
+        }
+    }
     public class LoadingScreenService : MonoBehaviour, ILoadingScreenService
     {
         [SerializeField] private CanvasGroup rootCanvas;
         [SerializeField] private TextMeshProUGUI messageText;
+        [SerializeField] private Slider progressBar;
         
         [Inject]private SignalBus signalBus;
 
@@ -24,6 +35,12 @@ namespace SabanMete.Core.UI
             signalBus.Subscribe<GameSceneReadySignal>(OnGameSceneReady);
             signalBus.Subscribe<ShowLoadingScreenSignal>(OnShowLoadingRequested);
             signalBus.Subscribe<HideLoadingScreenSignal>(OnHideLoadingRequested);
+            signalBus.Subscribe<LoadingProgressSignal>(OnLoadingProgressSignal);
+        }
+
+        private void OnLoadingProgressSignal(LoadingProgressSignal signal)
+        {
+            progressBar.value = signal.Progress;
         }
 
         private async void OnShowLoadingRequested()
@@ -59,6 +76,8 @@ namespace SabanMete.Core.UI
             signalBus?.Unsubscribe<GameSceneReadySignal>(OnGameSceneReady);
             signalBus?.Unsubscribe<ShowLoadingScreenSignal>(OnShowLoadingRequested);
             signalBus?.Unsubscribe<HideLoadingScreenSignal>(OnHideLoadingRequested);
+            signalBus?.Unsubscribe<LoadingProgressSignal>(OnLoadingProgressSignal);
+
         }
     }
 }

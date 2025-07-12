@@ -1,3 +1,4 @@
+using SabanMete.Core.UI;
 using SabanMete.Core.Utils;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,7 @@ namespace SabanMete.Core.GameStates
             Container.DeclareSignal<GameSceneReadySignal>();
             Container.DeclareSignal<ShowLoadingScreenSignal>();
             Container.DeclareSignal<HideLoadingScreenSignal>();
+            Container.DeclareSignal<LoadingProgressSignal>();
         }
     }
 

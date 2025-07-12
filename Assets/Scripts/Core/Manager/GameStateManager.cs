@@ -19,7 +19,7 @@ namespace SabanMete.Core.GameStates
         }
         public void Initialize()
         {
-            sceneLoader.LoadScenesAsync(new[] { "MainScene", "UIScene" },LoadSceneMode.Additive,false);
+            sceneLoader.LoadScenesAsync(new[] { "MainScene", "UIScene"});
             Current = GameState.MainMenu;
         }
         public void SetState(GameState newState)
@@ -41,12 +41,12 @@ namespace SabanMete.Core.GameStates
 
                 case GameState.MainMenu:
                     await sceneLoader.UnloadSceneAsync("GameScene");
-                    await sceneLoader.LoadScenesAsync(new[] { "MainScene", "UIScene" });
+                    await sceneLoader.LoadScenesWithProgress(new[] { "MainScene", "UIScene" });
                     break;
 
                 case GameState.Gameplay:
                     await sceneLoader.UnloadSceneAsync("MainScene");
-                    await sceneLoader.LoadScenesAsync(new[] { "GameScene" });
+                    await sceneLoader.LoadScenesWithProgress(new[] { "GameScene" });
                     break;
 
                 case GameState.GameOver:
